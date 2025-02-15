@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Main {
+    public static void baralho(LinkedList<Integer> cartas) {
+        List<Integer> descartados = new ArrayList<>();
+
+        while (cartas.size() > 1) {
+            descartados.add(cartas.pollFirst()); 
+            cartas.addLast(cartas.pollFirst()); 
+        }
+
+        System.out.println("Discarded cards: " + (descartados.isEmpty() ? "None" : descartados.toString().replaceAll("[\\[\\]]", "")));
+        System.out.println("Remaining card: " + cartas.getFirst());
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            int T = sc.nextInt();
+            if (T == 0) break;
+
+            LinkedList<Integer> cartas = new LinkedList<>();
+            for (int i = 1; i <= T; i++) {
+                cartas.add(i);
+            }
+
+            baralho(cartas);
+        }
+    }
+}

@@ -1,0 +1,54 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int T = Integer.parseInt(br.readLine()); // Número de casos de teste
+        for (int t = 0; t < T; t++) {
+            // Leitura de M (número de palavras no dicionário) e N (número de linhas na letra da música)
+            String[] mnLine = br.readLine().split(" ");
+            int M = Integer.parseInt(mnLine[0]);
+            int N = Integer.parseInt(mnLine[1]);
+            
+            // Construção do dicionário
+            Map<String, String> dict = new HashMap<>();
+            for (int i = 0; i < M; i++) {
+                String jap = br.readLine(); // Palavra em japonês
+                String por = br.readLine(); // Tradução em português
+                dict.put(jap, por); // Armazena no dicionário
+            }
+            
+            // Tradução das linhas da música
+            for (int i = 0; i < N; i++) {
+                String line = br.readLine(); // Linha da música
+                List<String> translatedWords = new ArrayList<>(); // Lista para armazenar as palavras traduzidas
+                if (!line.isEmpty()) { // Verifica se a linha não está vazia
+                    String[] words = line.split(" "); // Divide a linha em palavras
+                    for (String word : words) {
+                        String translation = dict.get(word); // Busca a tradução no dicionário
+                        if (translation != null) {
+                            // Se a tradução existir, divide em partes (caso tenha múltiplas palavras)
+                            String[] parts = translation.split(" ");
+                            for (String part : parts) {
+                                translatedWords.add(part); // Adiciona cada parte à lista
+                            }
+                        } else {
+                            // Se a palavra não estiver no dicionário, mantém a palavra original
+                            translatedWords.add(word);
+                        }
+                    }
+                }
+                // Imprime a linha traduzida
+                System.out.println(String.join(" ", translatedWords));
+            }
+            // Imprime uma linha em branco após cada caso de teste
+            System.out.println();
+        }
+    }
+}

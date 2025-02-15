@@ -1,0 +1,93 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+    static long[][] dp = new long[51][51];
+    static long[] pot2 = new long[51];
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String entrada = br.readLine();
+        while (entrada.trim().isEmpty()) entrada = br.readLine();
+        int T = Integer.parseInt(entrada.trim());
+        precomputar();
+        StringBuilder resultado = new StringBuilder();
+
+        for (int t = 0; t < T; t++) {
+            entrada = br.readLine();
+            while (entrada.trim().isEmpty()) entrada = br.readLine();
+            String[] partes = entrada.trim().split("\\s+");
+            int N = Integer.parseInt(partes[0]);
+            long K = Long.parseLong(partes[1]);
+            long total = contar(N, 0, false);
+
+            if (K >= total) {
+                resultado.append("-1\n");
+                continue;
+            }
+
+            StringBuilder escultura = new StringBuilder();
+            int posicao = 0, balanceamento = 0;
+            boolean invalido = false;
+
+            while (posicao < N) {
+                int restante = N - posicao;
+                long opcao1 = contar(restante - 1, balanceamento + 1, invalido || (balanceamento + 1 < 0));
+                
+                if (K < opcao1) {
+                    escultura.append('(');
+                    balanceamento++;
+                    invalido = invalido || (balanceamento < 0);
+                    posicao++;
+                    continue;
+                }
+
+                K -= opcao1;
+                long opcao2 = contar(restante - 1, balanceamento - 1, invalido || (balanceamento - 1 < 0));
+                
+                if (K < opcao2) {
+                    escultura.append(')');
+                    balanceamento--;
+                    invalido = invalido || (balanceamento < 0);
+                    posicao++;
+                    continue;
+                }
+
+                K -= opcao2;
+            }
+
+            resultado.append(escultura.toString()).append("\n");
+        }
+        
+        System.out.print(resultado);
+    }
+
+    static void precomputar() {
+        for (int i = 0; i < 51; i++) {
+            Arrays.fill(dp[i], 0);
+        }
+        dp[0][0] = 1;
+
+        for (int r = 1; r <= 50; r++) {
+            for (int b = 0; b <= r; b++) {
+                long a = 0;
+                if (b + 1 <= r - 1) a = dp[r - 1][b + 1];
+                long bTermo = 0;
+                if (b > 0) bTermo = dp[r - 1][b - 1];
+                dp[r][b] = a + bTermo;
+            }
+        }
+
+        pot2[0] = 1;
+        for (int i = 1; i <= 50; i++) {
+            pot2[i] = pot2[i - 1] * 2;
+        }
+    }
+
+    static long contar(int restante, int balanceamento, boolean invalido) {
+        if (restante < 0) return 0;
+        if (invalido || balanceamento < 0) return pot2[restante];
+        if (balanceamento > restante) return pot2[restante];
+        return pot2[restante] - dp[restante][balanceamento];
+    }
+}

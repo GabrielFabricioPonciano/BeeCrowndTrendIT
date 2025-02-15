@@ -1,0 +1,52 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void replacetext(StringBuilder texto, char marker, String opentag, String closetag){
+        int contador = 0;
+        int i = 0;
+
+        while (i < texto.length()){
+
+                char c = texto.charAt(i);
+
+                if (c == marker){
+
+                    if (contador % 2 == 0){
+
+                        texto.replace(i,i + 1,opentag);
+
+                        i += opentag.length();
+
+                    } else {
+
+                        texto.replace(i,i+1, closetag);
+
+                        i+= closetag.length();
+                    }
+                    contador++;
+
+                } else
+                {i++;}
+            }
+        }
+
+    public static void main(String[] args) throws IOException {
+       Scanner sc = new Scanner(System.in);
+        StringBuilder texto = new StringBuilder();
+
+        while (sc.hasNextLine()) {
+            texto.append(sc.nextLine());
+            if (sc.hasNextLine()) { 
+                texto.append("\n");
+            }
+        }
+        sc.close();
+
+        replacetext(texto, '_', "<i>", "</i>");
+        replacetext(texto, '*', "<b>", "</b>");
+
+        System.out.println(texto.toString());
+
+    }}

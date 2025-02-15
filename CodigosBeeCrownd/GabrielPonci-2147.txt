@@ -1,0 +1,16 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader leitor = new BufferedReader(new InputStreamReader(System.in));
+        int casos = Integer.parseInt(leitor.readLine().trim());
+        StringBuilder saida = new StringBuilder();
+        for(int i = 0; i < casos; i++){
+            String palavra = leitor.readLine().trim();
+            int tamanho = palavra.length();
+            double tempo = tamanho / 100.0;
+            saida.append(String.format("%.2f", tempo)).append("\n");
+        }
+        System.out.print(saida);
+    }
+}

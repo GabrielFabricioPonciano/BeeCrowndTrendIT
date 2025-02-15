@@ -1,0 +1,37 @@
+import java.io.IOException;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        Scanner scn = new Scanner(System.in);
+        int x;
+        do {
+            x = scn.nextInt();
+            if (x == 0) break;
+            int[][] matriz = new int[x][x];
+            StringBuilder output = new StringBuilder();
+
+            for (int camada = 0; camada < (x+1) / 2; camada++) {
+                for (int i = camada; i < x - camada ; i++) {
+                    for (int j = camada; j < x - camada ; j++) {
+                        matriz[i][j] = camada + 1;
+                    }
+                }
+            }
+
+            for (int i = 0; i < x; i++) {
+                for (int j = 0; j < x; j++) {
+                    output.append(String.format("%3d", matriz[i][j]));
+                    if (j < x - 1) {
+                        output.append(" ");
+                    }
+                }
+                output.append("\n");
+            }
+            output.append("\n");
+
+            System.out.print(output.toString());
+        } while (x != 0);
+    }
+}

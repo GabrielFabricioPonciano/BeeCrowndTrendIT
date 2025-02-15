@@ -1,0 +1,30 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        Scanner entrada = new Scanner(System.in);
+        int estrelas = entrada.nextInt();
+        int[] fazendas = new int[estrelas];
+        for (int i = 0; i < estrelas; i++) {
+            fazendas[i] = entrada.nextInt();
+        }
+        HashSet<Integer> atacadas = new HashSet<>();
+        int pos = 0;
+        while (pos >= 0 && pos < estrelas) {
+            atacadas.add(pos);
+            int valor = fazendas[pos];
+            if (valor > 0) {
+                fazendas[pos] = valor - 1;
+            }
+            if (valor % 2 == 1) {
+                pos++;
+            } else {
+                pos--;
+            }
+        }
+        long totalOvelhas = 0;
+        for (int x : fazendas) {
+            totalOvelhas += x;
+        }
+        System.out.println(atacadas.size() + " " + totalOvelhas);
+    }
+}

@@ -1,0 +1,62 @@
+import java.util.*;
+import java.util.regex.Pattern;
+
+public class Main {
+    private static int gcd(int a, int b){
+        while ( b != 0){
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+    public static void main(String[] args) {
+        Scanner scn = new Scanner(System.in);
+        int N = scn.nextInt();
+        scn.nextLine();
+        for (int i = 0; i < N; i++) {
+           int N1 = scn.nextInt();
+           scn.next();
+           int D1 = scn.nextInt();
+
+           char operator = scn.next().charAt(0);
+
+           int N2 = scn.nextInt();
+           scn.next();
+           int D2 = scn.nextInt();
+
+           int num,den;
+
+           switch (operator){
+               case '+':
+                   num = (N1 * D2 + N2 * D1);
+                   den = (D1 * D2);
+                   break;
+               case '-':
+                   num = (N1 * D2 - N2 * D1);
+                   den = (D1 * D2);
+                   break;
+               case '*':
+                   num = (N1 * N2);
+                   den = (D1 * D2);
+                   break;
+               case '/':
+                   num = (N1 * D2);
+                   den = (N2 * D1);
+                   break;
+               default:
+                   continue;
+
+           }
+           int mdc = gcd(Math.abs(num),Math.abs(den));
+
+           int numerador = num/ mdc;
+           int denominado = den/ mdc;
+           System.out.println(num + "/" + den + " = " + numerador + "/" + denominado);
+
+
+
+
+        }
+    }
+}

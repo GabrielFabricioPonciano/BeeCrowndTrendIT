@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class Main {
+
+    static int calls;
+    public static int fibonaci(int n) {
+        if (n == 0){
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        } else {
+            calls +=2;
+            return fibonaci(n - 1) + fibonaci(n - 2);
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt(); 
+
+        for (int i = 0; i < N; i++) {
+            int X = sc.nextInt(); 
+            calls = 0; 
+            int result = fibonaci(X);
+            System.out.println("fib(" + X + ") = " + calls + " calls = " + result);
+        }
+
+        sc.close();
+
+    }
+}

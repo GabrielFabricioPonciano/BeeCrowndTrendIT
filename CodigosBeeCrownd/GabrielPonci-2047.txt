@@ -1,0 +1,93 @@
+import java.util.*;
+
+public class Main {
+    static final int INF = Integer.MAX_VALUE;
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int instancia = 1;
+        while (true) {
+            int m = sc.nextInt();
+            if (m == 0) break;
+            Map<String, Integer> mapa = new HashMap<>();
+            int proximoIndice = 1;
+            List<int[]> origens = new ArrayList<>();
+            int totalPassageiros = 0;
+            for (int i = 0; i < m; i++) {
+                String cidade = sc.next();
+                int passageiros = sc.nextInt();
+                totalPassageiros += passageiros;
+                if (!mapa.containsKey(cidade)) {
+                    mapa.put(cidade, proximoIndice++);
+                }
+                origens.add(new int[]{mapa.get(cidade), passageiros});
+            }
+            int n = sc.nextInt();
+            String cidadeDestino = sc.next();
+            if (!mapa.containsKey(cidadeDestino)) {
+                mapa.put(cidadeDestino, proximoIndice++);
+            }
+            int destino = mapa.get(cidadeDestino);
+            List<int[]> voos = new ArrayList<>();
+            for (int i = 0; i < n; i++) {
+                String origem = sc.next();
+                String destinoVoo = sc.next();
+                int cap = sc.nextInt();
+                if (!mapa.containsKey(origem)) {
+                    mapa.put(origem, proximoIndice++);
+                }
+                if (!mapa.containsKey(destinoVoo)) {
+                    mapa.put(destinoVoo, proximoIndice++);
+                }
+                voos.add(new int[]{mapa.get(origem), mapa.get(destinoVoo), cap});
+            }
+            int numVertices = proximoIndice;
+            int[][] capacidadeMatriz = new int[numVertices][numVertices];
+            for (int[] o : origens) {
+                capacidadeMatriz[0][o[0]] += o[1];
+            }
+            for (int[] voo : voos) {
+                capacidadeMatriz[voo[0]][voo[1]] += voo[2];
+            }
+            int fluxoMaximo = 0;
+            while (true) {
+                int[] parent = new int[numVertices];
+                Arrays.fill(parent, -1);
+                parent[0] = 0;
+                int[] minCap = new int[numVertices];
+                minCap[0] = INF;
+                Queue<Integer> fila = new LinkedList<>();
+                fila.add(0);
+                while (!fila.isEmpty() && parent[destino] == -1) {
+                    int u = fila.poll();
+                    for (int v = 0; v < numVertices; v++) {
+                        if (capacidadeMatriz[u][v] > 0 && parent[v] == -1) {
+                            parent[v] = u;
+                            minCap[v] = Math.min(minCap[u], capacidadeMatriz[u][v]);
+                            if (v == destino) break;
+                            fila.add(v);
+                        }
+                    }
+                }
+                if (parent[destino] == -1) break;
+                int fluxoEnviado = minCap[destino];
+                int v = destino;
+                while (v != 0) {
+                    int u = parent[v];
+                    capacidadeMatriz[u][v] -= fluxoEnviado;
+                    capacidadeMatriz[v][u] += fluxoEnviado;
+                    v = u;
+                }
+                fluxoMaximo += fluxoEnviado;
+            }
+            System.out.println("Instancia " + instancia);
+            if (fluxoMaximo == totalPassageiros) {
+                System.out.println("viavel");
+            } else {
+                System.out.println("inviavel");
+            }
+            System.out.println();
+            instancia++;
+        }
+        sc.close();
+    }
+}

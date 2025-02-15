@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class Main {
+    public static void fila(ArrayList<Integer> cartas) {
+        ArrayList<Integer> chegada = new ArrayList<>(cartas);
+        ArrayList<Integer> ordenado = new ArrayList<>();
+        int iguais = 0;
+
+        ordenado.addAll(chegada);
+        Collections.sort(ordenado, Collections.reverseOrder());
+
+        for (int i = 0; i < chegada.size(); i++) {
+            if (chegada.get(i).equals(ordenado.get(i))) {
+                iguais++;
+            }
+        }
+
+        System.out.println(iguais);
+    }
+
+    public static void main(String[] args) {
+        Scanner snc = new Scanner(System.in);
+        int n = snc.nextInt(); 
+        snc.nextLine();
+
+        for (int i = 0; i < n; i++) {
+            int a = snc.nextInt(); 
+            ArrayList<Integer> cartinha = new ArrayList<>();
+            for (int j = 0; j < a; j++) {
+                cartinha.add(snc.nextInt()); 
+            }
+            fila(cartinha); 
+        }
+    }
+}

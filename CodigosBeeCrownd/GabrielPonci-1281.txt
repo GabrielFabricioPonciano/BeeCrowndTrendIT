@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int N = sc.nextInt();
+
+        for (int i = 0; i < N; i++) {
+            int M = sc.nextInt();
+            sc.nextLine();
+
+            Map<String, Double> precosProdutos = new HashMap<>();
+
+            for (int j = 0; j < M; j++) {
+                String linha = sc.nextLine().trim();
+                String[] partes = linha.split(" ");
+                int indicePreco = partes.length - 1;
+                String nomeProduto = String.join(" ", Arrays.copyOf(partes, indicePreco));
+                double preco = Double.parseDouble(partes[indicePreco]);
+                precosProdutos.put(nomeProduto, preco);
+            }
+
+            int P = sc.nextInt();
+            sc.nextLine();
+
+            double total = 0.0;
+
+            for (int j = 0; j < P; j++) {
+                String linha = sc.nextLine().trim();
+                String[] partes = linha.split(" ");
+                int indiceQuantidade = partes.length - 1;
+                String nomeProduto = String.join(" ", Arrays.copyOf(partes, indiceQuantidade));
+                int quantidade = Integer.parseInt(partes[indiceQuantidade]);
+
+                if (precosProdutos.containsKey(nomeProduto)) {
+                    total += precosProdutos.get(nomeProduto) * quantidade;
+                }
+            }
+
+            System.out.printf("R$ %.2f\n", total);
+        }
+
+        sc.close();
+    }
+}

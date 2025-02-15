@@ -1,0 +1,4 @@
+SELECT movies.id, movies.name
+FROM MOVIES movies
+JOIN PRICES p ON movies.id_prices = p.id
+WHERE p.value < 2;

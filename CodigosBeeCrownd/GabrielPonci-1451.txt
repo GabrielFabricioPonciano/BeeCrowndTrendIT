@@ -1,0 +1,46 @@
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            LinkedList<String> deque = new LinkedList<>();
+            StringBuilder buffer = new StringBuilder();
+            boolean isHome = false;
+
+            for (char c : line.toCharArray()) {
+                if (c == '[' || c == ']') {
+                    if (buffer.length() > 0) {
+                        if (isHome) {
+                            deque.addFirst(buffer.toString());
+                        } else {
+                            deque.addLast(buffer.toString());
+                        }
+                        buffer.setLength(0);
+                    }
+                    isHome = (c == '[');
+                } else {
+                    buffer.append(c);
+                }
+            }
+
+            if (buffer.length() > 0) {
+                if (isHome) {
+                    deque.addFirst(buffer.toString());
+                } else {
+                    deque.addLast(buffer.toString());
+                }
+            }
+
+            StringBuilder result = new StringBuilder();
+            for (String s : deque) {
+                result.append(s);
+            }
+
+            System.out.println(result.toString());
+        }
+        sc.close();
+    }
+}

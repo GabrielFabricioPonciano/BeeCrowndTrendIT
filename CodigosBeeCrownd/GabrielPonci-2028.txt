@@ -1,0 +1,46 @@
+import java.io.*;
+
+public class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line;
+        int caseNumber = 1;
+        
+        
+        String[] sequenceStr = new String[201];
+        int[] counts = new int[201];
+        
+        
+        sequenceStr[0] = "0";
+        counts[0] = 1;
+        
+        for (int i = 1; i <= 200; i++) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(sequenceStr[i-1]); 
+            for (int j = 0; j < i; j++) {
+                sb.append(" ").append(i);
+            }
+            sequenceStr[i] = sb.toString();
+            counts[i] = counts[i-1] + i;
+        }
+        
+        StringBuilder output = new StringBuilder();
+        
+        while ((line = br.readLine()) != null) {
+            line = line.trim();
+            if(line.isEmpty()){
+                continue;
+            }
+            int n = Integer.parseInt(line);
+            int totalNumbers = counts[n];
+            String numeroStr = (totalNumbers == 1) ? "numero" : "numeros";
+            
+            output.append("Caso ").append(caseNumber).append(": ")
+                  .append(totalNumbers).append(" ").append(numeroStr).append("\n")
+                  .append(sequenceStr[n]).append("\n\n");
+            caseNumber++;
+        }
+        
+        System.out.print(output);
+    }
+}

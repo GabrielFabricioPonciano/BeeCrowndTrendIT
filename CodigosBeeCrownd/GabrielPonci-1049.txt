@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        
+        Map<List<String>, String> animais = new HashMap<>();
+        animais.put(Arrays.asList("vertebrado", "ave", "carnivoro"), "aguia");
+        animais.put(Arrays.asList("vertebrado", "ave", "onivoro"), "pomba");
+        animais.put(Arrays.asList("vertebrado", "mamifero", "onivoro"), "homem");
+        animais.put(Arrays.asList("vertebrado", "mamifero", "herbivoro"), "vaca");
+        animais.put(Arrays.asList("invertebrado", "inseto", "hematofago"), "pulga");
+        animais.put(Arrays.asList("invertebrado", "inseto", "herbivoro"), "lagarta");
+        animais.put(Arrays.asList("invertebrado", "anelideo", "hematofago"), "sanguessuga");
+        animais.put(Arrays.asList("invertebrado", "anelideo", "onivoro"), "minhoca");
+
+        Scanner sc = new Scanner(System.in);
+
+        String palavra1 = sc.nextLine();
+        String palavra2 = sc.nextLine();
+        String palavra3 = sc.nextLine();
+
+        String resultado = animais.get(Arrays.asList(palavra1, palavra2, palavra3));
+
+        if (resultado != null) {
+            System.out.println(resultado);
+        }
+    }
+}
